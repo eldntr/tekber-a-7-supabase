@@ -1,5 +1,7 @@
 # Moneystock - Aplikasi Manajemen Keuangan
 
+**Final Project - Teknologi Berkembang A - Kelompok 7**
+
 Moneystock adalah aplikasi mobile manajemen keuangan pribadi yang dibangun dengan Flutter dan Supabase. Aplikasi ini membantu Anda melacak pemasukan, pengeluaran, dan mengelola keuangan dengan mudah.
 
 ## Fitur Utama
@@ -175,7 +177,15 @@ Silakan berkontribusi dengan cara:
 
 ## Tim Pengembang
 
-- **Ervina Anggraini** - Developer
+**Kelompok 7 - Teknologi Berkembang A**
+
+| Nama | NRP |
+|------|-----|
+| Azzahra Amalia Arfin | 5026231027 |
+| Antika Raya | 5026231034 |
+| Ervina Anggraini | 5026231042 |
+| Nisrina Kamiliya Riswanto | 5026231111 |
+| Realasa Femmi Novelika | 5026231113 |
 
 ## Credits
 
