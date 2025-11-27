@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_application/core/constants/urls.dart';
 import 'package:flutter_application/core/extensions/build_context_extensions.dart';
 import 'package:flutter_application/core/extensions/string_extensions.dart';
@@ -20,7 +21,7 @@ class WelcomeContent extends StatelessWidget {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.all(Spacing.s16),
+            padding: EdgeInsets.all(Spacing.s16.w),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -29,21 +30,21 @@ class WelcomeContent extends StatelessWidget {
                   "Welcome",
                   style: context.textTheme.headlineMedium,
                 ),
-                const SizedBox(height: Spacing.s16),
+                SizedBox(height: Spacing.s16.h),
                 const _AuthorInfo(),
-                const SizedBox(height: Spacing.s16),
+                SizedBox(height: Spacing.s16.h),
                 Text(
                   "Contact",
                   style: context.textTheme.headlineMedium,
                 ),
-                const SizedBox(height: Spacing.s16),
+                SizedBox(height: Spacing.s16.h),
                 _ContactDetails(),
-                const SizedBox(height: Spacing.s16),
+                SizedBox(height: Spacing.s16.h),
                 Text(
                   "Available features",
                   style: context.textTheme.headlineMedium,
                 ),
-                const SizedBox(height: Spacing.s16),
+                SizedBox(height: Spacing.s16.h),
                 _FeaturesList(),
               ],
             ),
@@ -59,24 +60,24 @@ class _AuthorInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Card.filled(
+    return Card.filled(
       child: Padding(
-        padding: EdgeInsets.all(Spacing.s16),
+        padding: EdgeInsets.all(Spacing.s16.w),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
-                Text("Hi"),
-                SizedBox(width: Spacing.s8),
-                Icon(Icons.waving_hand),
+                const Text("Hi"),
+                SizedBox(width: Spacing.s8.w),
+                const Icon(Icons.waving_hand),
               ],
             ),
-            SizedBox(height: Spacing.s16),
-            Text("I am Milan Petrovic, Software Engineer."),
-            SizedBox(height: Spacing.s16),
-            Text(
+            SizedBox(height: Spacing.s16.h),
+            const Text("I am Milan Petrovic, Software Engineer."),
+            SizedBox(height: Spacing.s16.h),
+            const Text(
               "Thank you for choosing our Flutter Supabase Starter to save 20+ hours of development time.",
             ),
           ],
@@ -111,7 +112,7 @@ class _ContactDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       child: Padding(
-        padding: const EdgeInsets.all(Spacing.s16),
+        padding: EdgeInsets.all(Spacing.s16.w),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -172,7 +173,7 @@ class _FeaturesList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card.outlined(
       child: Padding(
-        padding: const EdgeInsets.all(Spacing.s16),
+        padding: EdgeInsets.all(Spacing.s16.w),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,

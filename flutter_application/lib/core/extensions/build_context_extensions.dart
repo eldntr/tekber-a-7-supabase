@@ -43,4 +43,18 @@ extension BuildContextExtensions on BuildContext {
           ),
         ),
       );
+
+  void showSuccessSnackBarMessage(
+    String message,
+  ) {
+    scaffoldMessenger.showSnackBar(
+      SnackBar(
+        backgroundColor: Colors.green,
+        content: Text(
+          message,
+          style: const TextStyle(color: Colors.white),
+        ),
+      ),
+    );
+  }
 }

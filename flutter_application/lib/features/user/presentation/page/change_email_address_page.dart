@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_application/core/extensions/build_context_extensions.dart';
 import 'package:flutter_application/dependency_injection.dart';
 import 'package:flutter_application/features/user/presentation/bloc/change_email_address/change_email_address_cubit.dart';
@@ -21,7 +22,7 @@ class ChangeEmailAddressPage extends StatelessWidget {
         appBar: AppBar(),
         body: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.all(Spacing.s16),
+            padding: EdgeInsets.all(Spacing.s16.w),
             child: BlocListener<ChangeEmailAddressCubit, ChangeEmailAddressState>(
               listener: (context, state) {
                 switch (state.status) {

@@ -1,11 +1,10 @@
 import "package:flutter/material.dart";
+import "package:flutter_application/core/constants/app_colors.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:flutter_application/core/router/routes.dart";
 import "package:flutter_application/core/utils/dialog_utils.dart";
 import "package:flutter_application/features/auth/presentation/bloc/auth_bloc.dart";
 import "package:go_router/go_router.dart";
-
-import "../../../../core/constants/colors.dart";
 
 class LogoutSettingsTile extends StatelessWidget {
   const LogoutSettingsTile({
@@ -17,12 +16,12 @@ class LogoutSettingsTile extends StatelessWidget {
     return ListTile(
       leading: const Icon(
         Icons.exit_to_app,
-        color: AppColors.red,
+        color: AppColors.ba9659,
       ),
       title: const Text(
         "Logout",
         style: TextStyle(
-          color: AppColors.red,
+          color: AppColors.ba9659,
         ),
       ),
       onTap: () => _showLogOutConfirmationDialog(context),

@@ -20,12 +20,13 @@ void main() async {
 
 Future<void> _initializeSupabase() async {
   await Supabase.initialize(
-    url: "PROJECT_URL",
-    anonKey: "PUBLIC_ANON_KEY",
+    url: "https://fyuowtqduqjsgluqdcwj.supabase.co",
+    anonKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ5dW93dHFkdXFqc2dsdXFkY3dqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQxNjc4NTgsImV4cCI6MjA3OTc0Mzg1OH0.DZJRDuX1Riwhk_OXNo2PZPob2Hmsc_33ZXhpTlOff3Q",
   );
 }
 
 Future<void> _initializeHive() async {
   await Hive.initFlutter();
   await Hive.openThemeModeBox();
+  await Hive.openAppSettingsBox();
 }

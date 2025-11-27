@@ -22,6 +22,22 @@ enum Routes {
   themeMode(
     name: "themeMode",
     path: "/themeMode",
+  ),
+  loginCallback(
+    name: "loginCallback",
+    path: "/login-callback",
+  ),
+  splash(
+    name: "splash",
+    path: "/splash",
+  ),
+  onboarding(
+    name: "onboarding",
+    path: "/onboarding",
+  ),
+  register(
+    name: "register",
+    path: "/register",
   );
 
   const Routes({

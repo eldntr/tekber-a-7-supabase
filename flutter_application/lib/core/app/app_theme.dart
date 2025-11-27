@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_application/core/constants/font_sizes.dart';
 import 'package:flutter_application/core/constants/spacings.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-final theme = _getTheme(_lightColorScheme);
-final darkTheme = _getTheme(_darkColorScheme);
+ThemeData getTheme(Brightness brightness) {
+  final colorScheme = brightness == Brightness.light ? _lightColorScheme : _darkColorScheme;
+  return _getTheme(colorScheme);
+}
 
 final _lightColorScheme = ColorScheme.fromSeed(
   seedColor: const Color(0xFF47828F),
@@ -33,21 +36,21 @@ ThemeData _getTheme(ColorScheme colorScheme) {
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(Spacing.s16),
+          borderRadius: BorderRadius.circular(Spacing.s16.r),
         ),
         backgroundColor: colorScheme.primary,
         foregroundColor: Colors.white,
-        padding: const EdgeInsets.symmetric(
-          vertical: Spacing.s16,
-          horizontal: Spacing.s32,
+        padding: EdgeInsets.symmetric(
+          vertical: Spacing.s16.h,
+          horizontal: Spacing.s32.w,
         ),
       ),
     ),
-    inputDecorationTheme: const InputDecorationTheme(
-      contentPadding: EdgeInsets.all(Spacing.s24),
+    inputDecorationTheme: InputDecorationTheme(
+      contentPadding: EdgeInsets.all(Spacing.s24.w),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.all(
-          Radius.circular(Spacing.s16),
+          Radius.circular(Spacing.s16.r),
         ),
       ),
     ),
@@ -58,49 +61,49 @@ TextTheme _getTextTheme(ColorScheme colorScheme) {
   final textTheme = TextTheme(
       //Headline
       headlineLarge: TextStyle(
-        fontSize: FontSize.s24,
+        fontSize: FontSize.s24.sp,
         fontWeight: FontWeight.w700,
         color: colorScheme.primary,
       ),
       headlineMedium: TextStyle(
-        fontSize: FontSize.s18,
+        fontSize: FontSize.s18.sp,
         fontWeight: FontWeight.w700,
         color: colorScheme.onBackground,
       ),
       //Display
       displayLarge: TextStyle(
-        fontSize: FontSize.s36,
+        fontSize: FontSize.s36.sp,
         fontWeight: FontWeight.w700,
         color: colorScheme.primary,
       ),
-      displayMedium: const TextStyle(
-        fontSize: FontSize.s18,
+      displayMedium: TextStyle(
+        fontSize: FontSize.s18.sp,
         fontWeight: FontWeight.w500,
       ),
       //Title
       titleLarge: TextStyle(
-        fontSize: FontSize.s20,
+        fontSize: FontSize.s20.sp,
         fontWeight: FontWeight.w400,
         color: colorScheme.onBackground,
       ),
       titleMedium: TextStyle(
-        fontSize: FontSize.s18,
+        fontSize: FontSize.s18.sp,
         fontWeight: FontWeight.w400,
         color: colorScheme.onBackground,
       ),
       //Body
-      bodyMedium: const TextStyle(
-        fontSize: FontSize.s16,
+      bodyMedium: TextStyle(
+        fontSize: FontSize.s16.sp,
         fontWeight: FontWeight.w400,
       ),
       bodySmall: TextStyle(
-        fontSize: FontSize.s14,
+        fontSize: FontSize.s14.sp,
         fontWeight: FontWeight.w400,
         color: colorScheme.onBackground,
       ),
       //Label
       labelSmall: TextStyle(
-        fontSize: FontSize.s10,
+        fontSize: FontSize.s10.sp,
         fontWeight: FontWeight.w400,
         color: colorScheme.primary,
       ));

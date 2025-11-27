@@ -52,7 +52,7 @@
 				<string>Editor</string>
 				<key>CFBundleURLSchemes</key>
 				<array>
-					<string>io.supabase.test_project</string>
+					<string>io.supabase.moneystock</string>
 				</array>
 			</dict>
 		</array>

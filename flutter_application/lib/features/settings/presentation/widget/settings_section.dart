@@ -20,7 +20,7 @@ class SettingsSection extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(
+          padding: EdgeInsets.symmetric(
             horizontal: Spacing.s16,
           ),
           child: Text(

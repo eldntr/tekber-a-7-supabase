@@ -10,6 +10,7 @@ class BaseTextField extends StatelessWidget {
     required this.keyboardType,
     this.helperText,
     this.errorText,
+    this.obscureText = false,
   });
 
   final Function(String) onChanged;
@@ -18,6 +19,7 @@ class BaseTextField extends StatelessWidget {
   final String labelText;
   final String? errorText;
   final String? helperText;
+  final bool obscureText;
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +27,7 @@ class BaseTextField extends StatelessWidget {
       onChanged: onChanged,
       keyboardType: keyboardType,
       textInputAction: textInputAction,
+      obscureText: obscureText,
       decoration: InputDecoration(
         labelText: labelText,
         helperText: helperText,

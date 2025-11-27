@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_application/core/constants/spacings.dart';
 import 'package:flutter_application/core/extensions/build_context_extensions.dart';
 import 'package:flutter_application/core/widgets/form_wrapper.dart';
@@ -24,15 +25,15 @@ class ChangeEmailAddressForm extends StatelessWidget {
                 "Change email address",
                 style: context.textTheme.headlineLarge,
               ),
-              SizedBox(height: Spacing.s16),
-              Text(
+              SizedBox(height: Spacing.s16.h),
+              const Text(
                 "You will be required to confirm an email change to new email address.",
                 softWrap: true,
               ),
-              SizedBox(height: Spacing.s16),
-              ChangeEmailAddressEmailInput(),
-              SizedBox(height: Spacing.s16),
-              ChangeEmailAddressButton(),
+              SizedBox(height: Spacing.s16.h),
+              const ChangeEmailAddressEmailInput(),
+              SizedBox(height: Spacing.s16.h),
+              const ChangeEmailAddressButton(),
             ],
           ),
         ),

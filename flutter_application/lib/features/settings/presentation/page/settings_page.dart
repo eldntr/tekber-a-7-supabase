@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_application/core/constants/spacings.dart';
 import 'package:flutter_application/features/settings/presentation/widget/account_settings_section.dart';
 import 'package:flutter_application/features/settings/presentation/widget/help_settings_section.dart';
@@ -17,19 +18,19 @@ class SettingsPage extends StatelessWidget {
         title: const Text('Settings'),
         centerTitle: true,
       ),
-      body: const Padding(
-        padding: EdgeInsets.symmetric(vertical: Spacing.s8),
+      body: Padding(
+        padding: EdgeInsets.symmetric(vertical: Spacing.s8.h),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              InfoSettingsSection(),
-              SizedBox(height: Spacing.s16),
-              HelpSettingsSection(),
-              SizedBox(height: Spacing.s16),
-              ApplicationSettingsSection(),
-              SizedBox(height: Spacing.s16),
-              AccountSettingsSection(),
+              const InfoSettingsSection(),
+              SizedBox(height: Spacing.s16.h),
+              const HelpSettingsSection(),
+              SizedBox(height: Spacing.s16.h),
+              const ApplicationSettingsSection(),
+              SizedBox(height: Spacing.s16.h),
+              const AccountSettingsSection(),
             ],
           ),
         ),

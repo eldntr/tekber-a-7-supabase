@@ -28,6 +28,38 @@ class SupabaseAuthRepository implements AuthRepository {
   }
 
   @override
+  Future<void> loginWithEmailAndPassword(String email, String password) async {
+    try {
+      await _supabaseAuth.signInWithPassword(
+        email: email,
+        password: password,
+      );
+    } on AuthException catch (error) {
+      debugPrint("Login Error: ${error.message}");
+      throw LoginWithEmailException(error.message);
+    } catch (e) {
+      debugPrint("Login Unknown Error: $e");
+      throw LoginWithEmailException(e.toString());
+    }
+  }
+
+  @override
+  Future<void> signUpWithEmailAndPassword(String email, String password) async {
+    try {
+      await _supabaseAuth.signUp(
+        email: email,
+        password: password,
+      );
+    } on AuthException catch (error) {
+      debugPrint("SignUp Error: ${error.message}");
+      throw LoginWithEmailException(error.message);
+    } catch (e) {
+      debugPrint("SignUp Unknown Error: $e");
+      throw LoginWithEmailException(e.toString());
+    }
+  }
+
+  @override
   Future<void> logout() async {
     await _supabaseAuth.signOut();
   }

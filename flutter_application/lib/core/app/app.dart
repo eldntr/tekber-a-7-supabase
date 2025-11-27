@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_application/core/router/router.dart';
 import 'package:flutter_application/core/app/app_theme.dart';
 import 'package:flutter_application/dependency_injection.dart';
@@ -17,13 +18,20 @@ class FlutterSupabaseStarterApp extends StatelessWidget {
       child: BlocBuilder<ThemeModeCubit, ThemeModeState>(
         buildWhen: (previous, current) => previous.selectedThemeMode != current.selectedThemeMode,
         builder: (context, state) {
-          return MaterialApp.router(
-            title: 'Flutter and Supabase Starter',
-            routerConfig: router,
-            debugShowCheckedModeBanner: false,
-            theme: theme,
-            darkTheme: darkTheme,
-            themeMode: state.selectedThemeMode,
+          return ScreenUtilInit(
+            designSize: const Size(375, 812),
+            minTextAdapt: true,
+            splitScreenMode: true,
+            builder: (context, child) {
+              return MaterialApp.router(
+                title: 'Flutter and Supabase Starter',
+                routerConfig: router,
+                debugShowCheckedModeBanner: false,
+                theme: getTheme(Brightness.light),
+                darkTheme: getTheme(Brightness.dark),
+                themeMode: state.selectedThemeMode,
+              );
+            },
           );
         },
       ),
