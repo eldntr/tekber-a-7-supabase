@@ -1,6 +1,7 @@
 import 'package:injectable/injectable.dart';
 import 'package:flutter_application/features/transactions/domain/entities/transaction.dart';
 import 'package:flutter_application/features/transactions/domain/entities/cashflow_summary.dart';
+import 'package:flutter_application/features/transactions/domain/entities/category.dart';
 import 'package:flutter_application/features/transactions/domain/repositories/transaction_repository.dart';
 import 'package:flutter_application/features/transactions/data/data_sources/transaction_remote_data_source.dart';
 import 'package:flutter_application/features/transactions/data/models/transaction_model.dart';
@@ -61,5 +62,10 @@ class TransactionRepositoryImpl implements TransactionRepository {
   @override
   Future<void> deleteTransaction(String transactionId) async {
     return await remoteDataSource.deleteTransaction(transactionId);
+  }
+
+  @override
+  Future<List<Category>> getCategories({String? type}) async {
+    return await remoteDataSource.getCategories(type: type);
   }
 }

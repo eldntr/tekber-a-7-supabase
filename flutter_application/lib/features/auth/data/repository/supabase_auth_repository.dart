@@ -11,9 +11,11 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 class SupabaseAuthRepository implements AuthRepository {
   SupabaseAuthRepository(
     this._supabaseAuth,
+    this._supabaseClient,
   );
 
   final GoTrueClient _supabaseAuth;
+  final SupabaseClient _supabaseClient;
 
   @override
   Future<void> loginWithEmail(String email) async {
@@ -46,16 +48,37 @@ class SupabaseAuthRepository implements AuthRepository {
   @override
   Future<void> signUpWithEmailAndPassword(String email, String password) async {
     try {
-      await _supabaseAuth.signUp(
+      final response = await _supabaseAuth.signUp(
         email: email,
         password: password,
       );
+
+      // Create user profile after successful signup
+      if (response.user != null) {
+        await _createUserProfile(response.user!);
+      }
     } on AuthException catch (error) {
       debugPrint("SignUp Error: ${error.message}");
       throw LoginWithEmailException(error.message);
     } catch (e) {
       debugPrint("SignUp Unknown Error: $e");
       throw LoginWithEmailException(e.toString());
+    }
+  }
+
+  Future<void> _createUserProfile(User user) async {
+    try {
+      await _supabaseClient.from('user_profiles').insert({
+        'id': user.id,
+        'full_name': user.userMetadata?['full_name'] ?? user.email?.split('@')[0] ?? 'User',
+        'created_at': DateTime.now().toIso8601String(),
+        'updated_at': DateTime.now().toIso8601String(),
+      });
+    } catch (e) {
+      // Ignore error if profile already exists
+      if (!e.toString().contains('duplicate key')) {
+        debugPrint("Create User Profile Error: $e");
+      }
     }
   }
 

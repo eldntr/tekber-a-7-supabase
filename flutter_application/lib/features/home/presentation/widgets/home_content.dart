@@ -7,6 +7,8 @@ import 'package:flutter_application/features/auth/presentation/bloc/auth_bloc.da
 import 'package:flutter_application/features/home/presentation/bloc/home/home_cubit.dart';
 import 'package:flutter_application/features/profile/presentation/page/profile_page.dart';
 import 'package:flutter_application/features/home/presentation/widgets/home_skeleton_loading.dart';
+import 'package:flutter_application/features/transactions/presentation/cubit/add_transaction_cubit.dart';
+import 'package:flutter_application/features/transactions/presentation/widgets/add_transaction_dialog.dart';
 import 'package:flutter_application/dependency_injection.dart';
 
 class HomeContent extends StatelessWidget {
@@ -24,6 +26,21 @@ class HomeContent extends StatelessWidget {
 class _HomeContentView extends StatelessWidget {
   const _HomeContentView();
 
+  Future<void> _showAddTransactionDialog(BuildContext context) async {
+    final result = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) => BlocProvider(
+        create: (_) => getIt<AddTransactionCubit>(),
+        child: const AddTransactionDialog(),
+      ),
+    );
+
+    // Refresh home data if transaction was added successfully
+    if (result == true && context.mounted) {
+      context.read<HomeCubit>().loadHomeData();
+    }
+  }
+
   String formatCurrency(double amount) {
     final formatted = amount.toStringAsFixed(0).replaceAllMapped(
       RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
@@ -37,6 +54,11 @@ class _HomeContentView extends StatelessWidget {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
       backgroundColor: isDark ? Colors.grey[900] : Colors.grey[50],
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => _showAddTransactionDialog(context),
+        backgroundColor: AppColors.b93160,
+        child: const Icon(Icons.add, color: Colors.white),
+      ),
       body: SafeArea(
         child: BlocBuilder<HomeCubit, HomeState>(
           builder: (context, state) {
@@ -46,18 +68,58 @@ class _HomeContentView extends StatelessWidget {
 
             if (state.status == HomeStatus.error && state.cashflowSummary == null) {
               return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Icon(Icons.error_outline, size: 64, color: Colors.red),
-                    const SizedBox(height: 16),
-                    Text('Gagal memuat data', style: GoogleFonts.poppins(fontSize: 16)),
-                    const SizedBox(height: 8),
-                    ElevatedButton(
-                      onPressed: () => context.read<HomeCubit>().refreshHomeData(),
-                      child: const Text('Coba Lagi'),
-                    ),
-                  ],
+                child: Padding(
+                  padding: const EdgeInsets.all(32.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: 120,
+                        height: 120,
+                        decoration: BoxDecoration(
+                          color: Colors.red.withOpacity(0.1),
+                          shape: BoxShape.circle,
+                        ),
+                        child: const Icon(
+                          Icons.cloud_off_outlined,
+                          size: 60,
+                          color: Colors.red,
+                        ),
+                      ),
+                      const SizedBox(height: 24),
+                      Text(
+                        'Gagal Memuat Data',
+                        style: GoogleFonts.poppins(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: isDark ? Colors.white : Colors.black87,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        'Terjadi kesalahan saat memuat data.\nPastikan koneksi internet Anda stabil.',
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.poppins(
+                          fontSize: 14,
+                          color: Colors.grey,
+                        ),
+                      ),
+                      const SizedBox(height: 24),
+                      ElevatedButton.icon(
+                        onPressed: () => context.read<HomeCubit>().refreshHomeData(),
+                        icon: const Icon(Icons.refresh, color: Colors.white),
+                        label: const Text('Coba Lagi'),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.b93160,
+                          foregroundColor: Colors.white,
+                          padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               );
             }
@@ -381,7 +443,7 @@ class _HomeContentView extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: Spacing.s16),
                       child: Container(
                         width: double.infinity,
-                        padding: const EdgeInsets.all(Spacing.s48),
+                        padding: const EdgeInsets.all(Spacing.s16),
                         decoration: BoxDecoration(
                           color: isDark ? Colors.grey[850] : Colors.white,
                           borderRadius: BorderRadius.circular(12),
@@ -393,47 +455,73 @@ class _HomeContentView extends StatelessWidget {
                             ),
                           ],
                         ),
-                        child: Center(
-                          child: transactions.isEmpty
-                              ? Text(
-                                  "Belum ada transaksi",
-                                  style: GoogleFonts.poppins(
-                                    fontSize: 14,
-                                    color: Colors.grey,
+                        child: transactions.isEmpty
+                            ? Padding(
+                                padding: const EdgeInsets.all(Spacing.s24),
+                                child: Center(
+                                  child: Text(
+                                    "Belum ada transaksi",
+                                    style: GoogleFonts.poppins(
+                                      fontSize: 14,
+                                      color: Colors.grey,
+                                    ),
                                   ),
-                                )
-                              : Column(
-                                  children: transactions.take(5).map((transaction) {
-                                    return ListTile(
-                                      leading: Icon(
-                                        transaction.type == 'income'
-                                            ? Icons.arrow_downward
-                                            : Icons.arrow_upward,
-                                        color: transaction.type == 'income'
-                                            ? Colors.green
-                                            : Colors.red,
+                                ),
+                              )
+                            : Column(
+                                children: transactions.take(5).map((transaction) {
+                                  return Padding(
+                                    padding: const EdgeInsets.only(bottom: 8),
+                                    child: ListTile(
+                                      contentPadding: EdgeInsets.zero,
+                                      leading: Container(
+                                        width: 40,
+                                        height: 40,
+                                        decoration: BoxDecoration(
+                                          color: transaction.type == 'income'
+                                              ? Colors.green.withOpacity(0.1)
+                                              : Colors.red.withOpacity(0.1),
+                                          shape: BoxShape.circle,
+                                        ),
+                                        child: Icon(
+                                          transaction.type == 'income'
+                                              ? Icons.arrow_downward
+                                              : Icons.arrow_upward,
+                                          color: transaction.type == 'income'
+                                              ? Colors.green
+                                              : Colors.red,
+                                          size: 20,
+                                        ),
                                       ),
                                       title: Text(
                                         transaction.category.name,
-                                        style: GoogleFonts.poppins(fontWeight: FontWeight.w600),
+                                        style: GoogleFonts.poppins(
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 14,
+                                        ),
                                       ),
-                                      subtitle: Text(
-                                        transaction.description ?? '',
-                                        style: GoogleFonts.poppins(fontSize: 12),
-                                      ),
+                                      subtitle: transaction.description != null && transaction.description!.isNotEmpty
+                                          ? Text(
+                                              transaction.description!,
+                                              style: GoogleFonts.poppins(fontSize: 12),
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                            )
+                                          : null,
                                       trailing: Text(
                                         formatCurrency(transaction.amount),
                                         style: GoogleFonts.poppins(
                                           fontWeight: FontWeight.bold,
+                                          fontSize: 14,
                                           color: transaction.type == 'income'
                                               ? Colors.green
                                               : Colors.red,
                                         ),
                                       ),
-                                    );
-                                  }).toList(),
-                                ),
-                        ),
+                                    ),
+                                  );
+                                }).toList(),
+                              ),
                       ),
                     ),
                     
@@ -509,17 +597,18 @@ class _MenuIcon extends StatelessWidget {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     return InkWell(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(12),
+      borderRadius: BorderRadius.circular(50),
       child: Column(
         children: [
           Container(
-            padding: const EdgeInsets.all(16),
+            width: 64,
+            height: 64,
             decoration: BoxDecoration(
-              color: isDark ? Colors.grey[850] : Colors.white,
-              borderRadius: BorderRadius.circular(12),
+              gradient: AppColors.linier,
+              shape: BoxShape.circle,
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.05),
+                  color: Colors.black.withOpacity(0.1),
                   blurRadius: 8,
                   offset: const Offset(0, 2),
                 ),
@@ -528,7 +617,7 @@ class _MenuIcon extends StatelessWidget {
             child: Icon(
               icon,
               size: 28,
-              color: AppColors.b93160,
+              color: Colors.white,
             ),
           ),
           const SizedBox(height: 8),

@@ -39,8 +39,7 @@ class TransactionModel extends Transaction {
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'id': id,
+    final json = <String, dynamic>{
       'user_id': userId,
       'category_id': category.id,
       'type': type,
@@ -53,5 +52,12 @@ class TransactionModel extends Transaction {
       'receipt_image_url': receiptImageUrl,
       'merchant_name': merchantName,
     };
+    
+    // Only include id if it's not empty (for updates)
+    if (id.isNotEmpty) {
+      json['id'] = id;
+    }
+    
+    return json;
   }
 }

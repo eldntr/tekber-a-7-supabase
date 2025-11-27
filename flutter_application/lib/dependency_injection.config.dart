@@ -56,10 +56,16 @@ import 'package:flutter_application/features/transactions/data/repositories/tran
     as _i661;
 import 'package:flutter_application/features/transactions/domain/repositories/transaction_repository.dart'
     as _i993;
+import 'package:flutter_application/features/transactions/domain/use_cases/create_transaction_use_case.dart'
+    as _i198;
 import 'package:flutter_application/features/transactions/domain/use_cases/get_cashflow_summary_use_case.dart'
     as _i357;
+import 'package:flutter_application/features/transactions/domain/use_cases/get_categories_use_case.dart'
+    as _i268;
 import 'package:flutter_application/features/transactions/domain/use_cases/get_recent_transactions_use_case.dart'
     as _i725;
+import 'package:flutter_application/features/transactions/presentation/cubit/add_transaction_cubit.dart'
+    as _i621;
 import 'package:flutter_application/features/user/data/repository/supabase_user_repository.dart'
     as _i763;
 import 'package:flutter_application/features/user/domain/repository/user_repository.dart'
@@ -93,6 +99,10 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i12.ThemeModeRepository>(() => _i279.ThemeModeHiveRepository());
     gh.factory<_i483.OnboardingRepository>(
         () => _i483.OnboardingRepositoryImpl());
+    gh.factory<_i946.AuthRepository>(() => _i476.SupabaseAuthRepository(
+          gh<_i454.GoTrueClient>(),
+          gh<_i454.SupabaseClient>(),
+        ));
     gh.factory<_i1023.GetOrSetInitialThemeModeUseCase>(() =>
         _i1023.GetOrSetInitialThemeModeUseCase(gh<_i12.ThemeModeRepository>()));
     gh.factory<_i727.SetThemeModeUseCase>(
@@ -101,19 +111,6 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i590.GoTrueClient>(),
           gh<_i590.FunctionsClient>(),
         ));
-    gh.factory<_i621.ThemeModeCubit>(() => _i621.ThemeModeCubit(
-          gh<_i1023.GetOrSetInitialThemeModeUseCase>(),
-          gh<_i727.SetThemeModeUseCase>(),
-        ));
-    gh.factory<_i177.OnboardingCubit>(
-        () => _i177.OnboardingCubit(gh<_i483.OnboardingRepository>()));
-    gh.lazySingleton<_i713.TransactionRemoteDataSource>(() =>
-        _i713.TransactionRemoteDataSourceImpl(
-            supabaseClient: gh<_i454.SupabaseClient>()));
-    gh.factory<_i946.AuthRepository>(
-        () => _i476.SupabaseAuthRepository(gh<_i454.GoTrueClient>()));
-    gh.factory<_i627.ChangeEmailAddressUseCase>(
-        () => _i627.ChangeEmailAddressUseCase(gh<_i392.UserRepository>()));
     gh.factory<_i781.GetCurrentAuthStateUseCase>(
         () => _i781.GetCurrentAuthStateUseCase(gh<_i946.AuthRepository>()));
     gh.factory<_i981.GetLoggedInUserUseCase>(
@@ -126,21 +123,37 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i603.LogoutUseCase(gh<_i946.AuthRepository>()));
     gh.factory<_i829.SignUpWithEmailAndPasswordUseCase>(() =>
         _i829.SignUpWithEmailAndPasswordUseCase(gh<_i946.AuthRepository>()));
-    gh.lazySingleton<_i993.TransactionRepository>(() =>
-        _i661.TransactionRepositoryImpl(
-            remoteDataSource: gh<_i713.TransactionRemoteDataSource>()));
+    gh.factory<_i621.ThemeModeCubit>(() => _i621.ThemeModeCubit(
+          gh<_i1023.GetOrSetInitialThemeModeUseCase>(),
+          gh<_i727.SetThemeModeUseCase>(),
+        ));
+    gh.factory<_i177.OnboardingCubit>(
+        () => _i177.OnboardingCubit(gh<_i483.OnboardingRepository>()));
     gh.factory<_i723.LoginCubit>(() => _i723.LoginCubit(
           gh<_i459.LoginWithEmailAndPasswordUseCase>(),
           gh<_i829.SignUpWithEmailAndPasswordUseCase>(),
         ));
+    gh.lazySingleton<_i713.TransactionRemoteDataSource>(() =>
+        _i713.TransactionRemoteDataSourceImpl(
+            supabaseClient: gh<_i454.SupabaseClient>()));
+    gh.factory<_i553.RegisterCubit>(() =>
+        _i553.RegisterCubit(gh<_i829.SignUpWithEmailAndPasswordUseCase>()));
+    gh.factory<_i627.ChangeEmailAddressUseCase>(
+        () => _i627.ChangeEmailAddressUseCase(gh<_i392.UserRepository>()));
+    gh.factory<_i964.AuthBloc>(() => _i964.AuthBloc(
+          gh<_i981.GetLoggedInUserUseCase>(),
+          gh<_i781.GetCurrentAuthStateUseCase>(),
+          gh<_i603.LogoutUseCase>(),
+        ));
+    gh.lazySingleton<_i993.TransactionRepository>(() =>
+        _i661.TransactionRepositoryImpl(
+            remoteDataSource: gh<_i713.TransactionRemoteDataSource>()));
     gh.factory<_i357.GetCashflowSummaryUseCase>(() =>
         _i357.GetCashflowSummaryUseCase(
             repository: gh<_i993.TransactionRepository>()));
     gh.factory<_i725.GetRecentTransactionsUseCase>(() =>
         _i725.GetRecentTransactionsUseCase(
             repository: gh<_i993.TransactionRepository>()));
-    gh.factory<_i553.RegisterCubit>(() =>
-        _i553.RegisterCubit(gh<_i829.SignUpWithEmailAndPasswordUseCase>()));
     gh.factory<_i75.ChangeEmailAddressCubit>(() =>
         _i75.ChangeEmailAddressCubit(gh<_i627.ChangeEmailAddressUseCase>()));
     gh.factory<_i436.HomeCubit>(() => _i436.HomeCubit(
@@ -148,10 +161,13 @@ extension GetItInjectableX on _i174.GetIt {
           getRecentTransactionsUseCase:
               gh<_i725.GetRecentTransactionsUseCase>(),
         ));
-    gh.factory<_i964.AuthBloc>(() => _i964.AuthBloc(
-          gh<_i981.GetLoggedInUserUseCase>(),
-          gh<_i781.GetCurrentAuthStateUseCase>(),
-          gh<_i603.LogoutUseCase>(),
+    gh.factory<_i198.CreateTransactionUseCase>(() =>
+        _i198.CreateTransactionUseCase(gh<_i993.TransactionRepository>()));
+    gh.factory<_i268.GetCategoriesUseCase>(
+        () => _i268.GetCategoriesUseCase(gh<_i993.TransactionRepository>()));
+    gh.factory<_i621.AddTransactionCubit>(() => _i621.AddTransactionCubit(
+          gh<_i198.CreateTransactionUseCase>(),
+          gh<_i268.GetCategoriesUseCase>(),
         ));
     return this;
   }
