@@ -173,4 +173,4 @@ extension GetItInjectableX on _i174.GetIt {
   }
 }
 
-class _$AppModule extends _i690.AppModule {}
+class _$AppModule extends _i690.AppModule {} // buat 
